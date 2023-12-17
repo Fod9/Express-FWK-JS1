@@ -1,0 +1,9 @@
+<div class="proposition">
+    <label>Proposition</label>
+    <div class="flex">
+            <input name="propositions[{{QuestionId}}][]" type="text" required>
+            <input type="checkbox" name="goodAnswers[{{QuestionId}}][]" id="checkbox-{{index}}">
+            <label class="checkbox" for="checkbox-{{index}}"></label>
+            <button class="removeProposition" type="button" (click)="removeProposition(index)">-</button>
+    </div>
+</div>

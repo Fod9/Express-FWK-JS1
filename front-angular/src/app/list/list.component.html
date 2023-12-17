@@ -1,0 +1,9 @@
+<h1>Liste des quiz</h1>
+<li>
+    <a *ngFor="let qcm of qcms" href="/qcms/{{qcm.id}}">
+        {{qcm.name}}
+    </a>
+</li>
+<div class="add">
+    <a href="/qcms/new"></a>
+</div>

@@ -1,0 +1,27 @@
+<div *ngIf="!qcm">
+    <h1 class="alert">QCM doesn't exist</h1>
+</div>
+<h1>{{qcm?.name}}</h1>
+<form *ngIf="qcm" [formGroup]="form" (ngSubmit)="envoyerDonnees()">
+
+    <div formArrayName="answers">
+        <div *ngFor="let question of qcm?.questions; let qIndex=index" [formGroupName]="qIndex">
+            <h3>{{ question.question }}</h3>
+            <div *ngFor="let answer of question.answers; let aIndex=index" class="questions">
+                <input type="checkbox" [formControlName]="aIndex" id="checkbox-{{qIndex}}-{{aIndex}}">
+                <label for="checkbox-{{qIndex}}-{{aIndex}}" class="checkbox"></label>
+                <label for="checkbox-{{qIndex}}-{{aIndex}}"> {{ answer }}</label>
+            </div>
+        </div>
+    </div>
+    <button type="submit">Valider</button>
+</form>
+
+<div class="pop-up {{popup ? 'active' : ''}}" >
+    <div class="content">
+        <h2>Bravo !</h2>
+        <p>Vous avez obtenu {{score}} / {{qcm?.nbpoints}}</p>
+        <button (click)="popup = false">Fermer</button>
+    </div>
+</div>
+

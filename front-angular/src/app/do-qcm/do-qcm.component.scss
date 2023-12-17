@@ -1,0 +1,113 @@
+
+form {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50vw;
+    margin: 30px auto;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #333;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+.questions {
+    display: flex;
+}
+
+.checkbox {
+    display: block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid gray;
+    border-radius: 2px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked + .checkbox {
+    border: none;
+    position: relative;
+    background: linear-gradient(to right, #ff6a85, #c048c7);
+}
+
+input[type="checkbox"]:checked + .checkbox:after {
+    content: "\2714";
+    font-size: 10px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+button {
+    width: 200px;
+    display: block;
+    margin: 30px auto;
+    background: linear-gradient(to right, #ff6a85, #c048c7);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.pop-up {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+
+    .content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 50vw;
+        height: 30vh;
+        margin: 30px auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+    }
+
+    &.active {
+        opacity: 1;
+        pointer-events: all;
+    }
+    .button {
+        margin: 0;
+    }
+}
+
+h1 {
+    &.alert {
+       font-size: 5em;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

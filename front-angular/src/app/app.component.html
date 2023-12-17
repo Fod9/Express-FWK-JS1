@@ -1,0 +1,11 @@
+<main class="main">
+    <div class="back-to-home" *ngIf="!isHomeRoute()">
+        <a href="/"></a>
+    </div>
+    <div class="content">
+        <div class="container-fluid">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</main>
+

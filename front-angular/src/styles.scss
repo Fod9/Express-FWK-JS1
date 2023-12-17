@@ -1,0 +1,47 @@
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    height: 40px;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 0 10px;
+    background: #ffffff;
+    color: #333;
+    font-size: 16px;
+    transition: box-shadow 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: transparent;
+    background: linear-gradient(to right, #ff6a85, #c048c7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    display: block;
+    width: 50vw;
+    text-align: center;
+    margin: 30px auto;
+    text-fill-color: transparent;
+}
+
+input[type="checkbox"] {
+    display: none;
+}
+
+.flex {
+    display: flex;
+        align-items: center;
+        flex-direction: row;
+}

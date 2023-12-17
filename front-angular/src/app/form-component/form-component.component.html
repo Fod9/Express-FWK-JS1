@@ -1,0 +1,21 @@
+<h1>{{name}}</h1>
+<form action="http://localhost:3000/qcms/new" method="POST">
+    <div>
+        <label for="name">Nom</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="subject">Sujet</label>
+        <input type="text" id="subject" name="subject" required>
+    </div>
+    <div>
+        <label for="nbpoints">Nb points</label>
+        <input type="number" id="nbpoints" name="nbpoints" required>
+    </div>
+    <div class="form-questions">
+        <app-question-component *ngFor="let question of questions;let i = index " [QuestionId]="i"
+                                (removeQuestionEvent)="removeQuestion(i)"></app-question-component>
+    </div>
+    <button type="button" id="addQuestion" (click)="addQuestion()">Ajouter une question</button>
+    <button type="submit" value="Create" class="create">Créer</button>
+</form>
