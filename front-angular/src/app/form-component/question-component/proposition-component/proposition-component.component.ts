@@ -28,8 +28,8 @@ export class PropositionComponentComponent {
 
 
 
-    removeProposition(index: number) {
-        this.removePropositionEvent.emit(index);
+    removeProposition() {
+        this.removePropositionEvent.emit(this.index);
     }
 
 }

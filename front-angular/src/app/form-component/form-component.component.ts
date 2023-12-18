@@ -93,7 +93,7 @@ export class FormComponentComponent {
     }
 
     removeProposition(questionIndex: number, propositionIndex: number) {
-        const question = this.getQuestion(questionIndex);
+        const question = this.getQuestion(questionIndex - 1);
         const propositions = question.get('propositions') as FormArray;
         propositions.removeAt(propositionIndex);
     }
