@@ -1,11 +1,17 @@
-<div class="question">
+<div class="question" [formGroup]="question">
     <label>Question</label>
-    <input name="questions[]" type="text" required>
-    <app-proposition-component *ngFor="let proposition of propositions; let i = index" [QuestionId]="QuestionId"
-                               (removePropositionEvent)="removeProposition(i)" [index]="i"></app-proposition-component>
+    <input type="text" formControlName="label" required>
+    <div *ngFor="let proposition of propositions.controls; let i = index">
+        <app-proposition-component
+            [proposition]="getProposition(i)"
+            [index]="i + 1"
+            [QuestionId]="index"
+            (removePropositionEvent)="removePropositionEvent(i)">
+        </app-proposition-component>
+    </div>
+
     <div class="flex">
-        <button type="button" (click)="addProposition()" class="add">Ajouter une proposition</button>
-        <button type="button" (click)="removeQuestion(QuestionId)" class="suppr">Supprimer une question</button>
+        <button type="button" (click)="addPropositionEvent()" class="add">Ajouter une proposition</button>
+        <button type="button" (click)="removeQuestionEvent()" class="suppr">Supprimer une question</button>
     </div>
 </div>
-

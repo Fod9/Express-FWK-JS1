@@ -1,29 +1,28 @@
 
 li {
     list-style: none;
-    background: linear-gradient(to right, #ff6a85, #c048c7);
     color: white;
     width: 50vw;
     min-width: 300px;
     margin: 0 auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: 50px;
-    transition: all 0.3s ease, background-color 0.3s ease;
 
-    &:hover {
+    a:hover {
         transform: translateY(-5px);
     }
 
     a {
+        transition: all 0.3s ease, background-color 0.3s ease;
         color: white;
         text-decoration: none;
-        transition: color 0.3s ease;
         display: block;
         line-height: 50px;
-        margin-left: 30px;
         width: 100%;
-        height: 100%;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        height: 50px;
+        background: linear-gradient(to right, #ff6a85, #c048c7);
+        margin: 20px auto;
+        padding: 0 20px;
     }
 }
 
@@ -39,6 +38,7 @@ li {
     justify-content: center;
     margin: 50px auto;
     transition: all 0.3s ease, background-color 0.3s ease;
+
     &:after {
         content: "+";
         color: white;
@@ -46,12 +46,14 @@ li {
         top: -2px;
         font-size: 25px;
     }
+
     a {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
+        z-index: 100;
     }
 
     &:hover {

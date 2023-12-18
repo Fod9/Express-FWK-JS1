@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {NgForOf} from "@angular/common";
 import {PropositionComponentComponent} from "./proposition-component/proposition-component.component";
+import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 
 
 interface proposition {
@@ -12,7 +13,8 @@ interface proposition {
     standalone: true,
     imports: [
         NgForOf,
-        PropositionComponentComponent
+        PropositionComponentComponent,
+        ReactiveFormsModule
     ],
     templateUrl: './question-component.component.html',
     styleUrl: './question-component.component.scss'
@@ -20,29 +22,36 @@ interface proposition {
 
 export class QuestionComponentComponent {
 
-    @Input() QuestionId: number = 1;
-    @Input() PropositionId: number = 1;
-    propositions: Array<proposition> = new Array(this.PropositionId).fill({id: 1});
-    @Output() removeQuestionEvent: EventEmitter<number> = new EventEmitter<number>();
+    @Input() question!: FormGroup;
+    @Input() index!: number;
 
+    @Output() removeQuestion = new EventEmitter<number>();
+    @Output() addProposition = new EventEmitter<number>();
+    @Output() removeProposition = new EventEmitter<number>();
 
-    addProposition() {
-        const newId = this.generateUniqueId();
-        this.propositions.push({id: newId});
+    removeQuestionEvent() {
+        this.removeQuestion.emit(this.index);
     }
 
-    generateUniqueId(): number {
-        return this.propositions.length > 0
-            ? Math.max(...this.propositions.map(q => q.id)) + 1
-            : 1;
+    addPropositionEvent() {
+        this.addProposition.emit(this.index);
+    }
+
+    removePropositionEvent(index: number) {
+        this.removeProposition.emit(index);
+    }
+
+    get propositions(): FormArray {
+        return this.question?.get('propositions') as FormArray;
+    }
+
+    getProposition(index: number): FormGroup {
+        return this.propositions.at(index) as FormGroup;
     }
 
 
-    removeProposition(index: number) {
-        this.propositions.splice(index, 1);
-    }
 
-    removeQuestion(index: number) {
-        this.removeQuestionEvent.emit(index);
-    }
+
+
+
 }

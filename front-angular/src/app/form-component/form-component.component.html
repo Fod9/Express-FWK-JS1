@@ -1,20 +1,27 @@
 <h1>{{name}}</h1>
-<form action="http://localhost:3000/qcms/new" method="POST">
+<form [formGroup]="form" (ngSubmit)="SubmitForm($event)">
     <div>
         <label for="name">Nom</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" formControlName="title" required>
     </div>
     <div>
         <label for="subject">Sujet</label>
-        <input type="text" id="subject" name="subject" required>
+        <input type="text" id="subject" formControlName="subject" required>
     </div>
     <div>
         <label for="nbpoints">Nb points</label>
-        <input type="number" id="nbpoints" name="nbpoints" required>
+        <input type="number" id="nbpoints" formControlName="nbpoints" required>
     </div>
     <div class="form-questions">
-        <app-question-component *ngFor="let question of questions;let i = index " [QuestionId]="i"
-                                (removeQuestionEvent)="removeQuestion(i)"></app-question-component>
+        <app-question-component
+            *ngFor="let question of questions.controls; let i=index"
+            [question]="getQuestion(i)"
+            [index]="i"
+            (removeQuestion)="removeQuestion($event)"
+            (addProposition)="addProposition($event)"
+            (removeProposition)="removeProposition(QuestionId, $event)"
+        >
+        </app-question-component>
     </div>
     <button type="button" id="addQuestion" (click)="addQuestion()">Ajouter une question</button>
     <button type="submit" value="Create" class="create">Créer</button>

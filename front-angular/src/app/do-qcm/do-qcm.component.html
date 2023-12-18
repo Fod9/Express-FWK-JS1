@@ -2,22 +2,27 @@
     <h1 class="alert">QCM doesn't exist</h1>
 </div>
 <h1>{{qcm?.name}}</h1>
-<form *ngIf="qcm" [formGroup]="form" (ngSubmit)="envoyerDonnees()">
-
-    <div formArrayName="answers">
-        <div *ngFor="let question of qcm?.questions; let qIndex=index" [formGroupName]="qIndex">
-            <h3>{{ question.question }}</h3>
-            <div *ngFor="let answer of question.answers; let aIndex=index" class="questions">
-                <input type="checkbox" [formControlName]="aIndex" id="checkbox-{{qIndex}}-{{aIndex}}">
-                <label for="checkbox-{{qIndex}}-{{aIndex}}" class="checkbox"></label>
-                <label for="checkbox-{{qIndex}}-{{aIndex}}"> {{ answer }}</label>
+<form *ngIf="form" [formGroup]="form" (ngSubmit)="envoyerDonnees()">
+    <div formArrayName="questions">
+        <div *ngFor="let questionControl of questionsFormArray.controls; let i=index" [formGroupName]="i">
+            <h2>{{ questionControl.value.question }}</h2>
+            <div formArrayName="answers">
+                <div *ngFor="let answerControl of questionAnswersFormArray(i).controls; let j=index"
+                     [formGroupName]="j">
+                    <div class="flex">
+                        <input type="checkbox" formControlName="isCorrect" id="checkbox-{{j}}-{{i}}">
+                        <label for="checkbox-{{j}}-{{i}}" class="checkbox"></label>
+                        <label for="checkbox-{{j}}-{{i}}">{{ answerControl.value.name }}</label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     <button type="submit">Valider</button>
 </form>
 
-<div class="pop-up {{popup ? 'active' : ''}}" >
+
+<div class="pop-up {{popup ? 'active' : ''}}">
     <div class="content">
         <h2>Bravo !</h2>
         <p>Vous avez obtenu {{score}} / {{qcm?.nbpoints}}</p>

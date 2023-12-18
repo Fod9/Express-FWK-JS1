@@ -20,18 +20,33 @@ import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from "@angular/f
 })
 export class DoQcmComponent {
 
-    qcm?: Qcm;
+    qcm!: Qcm;
     idQcm: number = Number(this.route.snapshot.paramMap.get('id'));
     form = new FormGroup({
-        answers: new FormArray([])
+        id: new FormControl(''),
+        name: new FormControl(''),
+        nbpoints: new FormControl(''),
+        subject: new FormControl(''),
+        questions: new FormArray([
+            new FormGroup({
+                id: new FormControl(''),
+                question: new FormControl(''),
+                answers: new FormArray([
+                    new FormGroup({
+                        id: new FormControl(''),
+                        name: new FormControl(''),
+                        isCorrect: new FormControl(false)
+                    })
+                ])
+            })
+        ])
     });
+
     score?: number;
     popup: boolean = false;
 
     constructor(private backendService: BackendService, private route: ActivatedRoute) {
-        this.form = new FormGroup({
-            answers: new FormArray([])
-        });
+
     }
 
     ngOnInit() {
@@ -39,15 +54,46 @@ export class DoQcmComponent {
 
         this.backendService.getQcm(this.idQcm).then((qcm) => {
             this.qcm = qcm;
-
-            this.qcm?.questions.forEach((question, index) => {
-                const array = new FormArray(question.answers.map(() => new FormControl(false)));
-                (this.form.get('answers') as FormArray).push(array);
+            this.form.patchValue({
+                id: qcm.id,
+                name: qcm.name,
+                nbpoints: qcm.nbpoints,
+                subject: qcm.subject
             });
+            this.questionsFormArray.clear();
+            qcm.questions.forEach((question: Question) => {
+                this.questionsFormArray.push(new FormGroup({
+                    id: new FormControl(question.id),
+                    question: new FormControl(question.question),
+                    answers: new FormArray([])
+                }));
+            });
+            qcm.questions.forEach((question: Question, questionIndex: number) => {
+                question.answers.forEach((answer: any) => {
+                    this.questionAnswersFormArray(questionIndex).push(new FormGroup({
+                        id: new FormControl(answer.id),
+                        name: new FormControl(answer.name),
+                        isCorrect: new FormControl(false)
+                    }));
+                });
+            });
+
         });
+
+
     }
 
+    get questionsFormArray(): FormArray {
+        return this.form.get('questions') as FormArray;
+    }
+
+    questionAnswersFormArray(questionIndex: number): FormArray {
+        return this.questionsFormArray.at(questionIndex).get('answers') as FormArray;
+    }
+
+
     envoyerDonnees() {
+        console.log(this.form.value);
         this.backendService.envoyerDonnees(this.form.value, this.idQcm).then(score => {
             this.score = score.score;
             this.popup = true;
