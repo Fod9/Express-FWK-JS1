@@ -21,7 +21,6 @@ export class ListComponent {
     this.qcms = [];
     this.backendService.getQcms().then(() => {
       this.qcms = this.backendService.showQcms();
-      console.log(this.qcms);
     });
   }
 
