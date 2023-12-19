@@ -1,0 +1,34 @@
+<%- include('header') -%>
+
+<div>
+    <%= qcm.name %>
+</div>
+
+<div>
+    <%= qcm.subject %>
+</div>
+
+<div>
+    <%= qcm.nbpoints %>
+</div>
+
+<div>
+    <%= qcm.author %>
+</div>
+
+<div>
+    <% for (let question of qcm.questions) { %>
+        <div>
+            <h2><%= question.question %></h2>
+        </div>
+        <div>
+            <% for (let i = 0; i < question.answers.length; i++) { %>
+                <div>
+                   <p> <%= question.answers[i] %>  <%= question.goodanswer[i] %> </p>
+                </div>
+            <% } %> 
+        </div>
+    <% } %> 
+</div>
+
+<%- include('footer') -%>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Form</title>
+</head>
+<body>
+    <form action="/qcms/new" method="POST">
+        <div>
+            <label for="name">Nom</label>
+            <input type="text" id="name" name="name">
+        </div>
+        <div>
+            <label for="subject">Sujet</label>
+            <input type="text" id="subject" name="subject">
+        </div>
+        <div>
+            <label for="nbpoints">Nb points</label>
+            <input type="number" id="nbpoints" name="nbpoints">
+        </div>
+        <div class="form-questions">
+            <!-- Questions will be dynamically added here -->
+        </div>
+        <button type="button" id="addQuestion">Ajouter une question</button>
+        <input type="submit" value="Create">
+    </form>
+
+    <script>
+        let questionCount = 0;
+
+        function addQuestion() {
+            let questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            let questionIndex = questionCount;
+
+            let labelQuestion = document.createElement('label');
+            labelQuestion.textContent = 'Question';
+            questionDiv.appendChild(labelQuestion);
+
+            let inputQuestion = document.createElement('input');
+            inputQuestion.type = 'text';
+            inputQuestion.name = 'questions[]';
+            questionDiv.appendChild(inputQuestion);
+
+            let propositionsDiv = document.createElement('div');
+            propositionsDiv.classList.add('propositions');
+            questionDiv.appendChild(propositionsDiv);
+
+            let addPropBtn = document.createElement('button');
+            addPropBtn.textContent = 'Ajouter une proposition';
+            addPropBtn.type = 'button';
+            addPropBtn.onclick = function() { addProposition(propositionsDiv, questionIndex); };
+            questionDiv.appendChild(addPropBtn);
+
+            document.querySelector('.form-questions').appendChild(questionDiv);
+            addProposition(propositionsDiv, questionIndex);
+            questionCount++;
+        }
+
+        function addProposition(propositionsDiv, questionIndex) {
+            let propositionDiv = document.createElement('div');
+            propositionDiv.classList.add('proposition');
+
+            let labelProposition = document.createElement('label');
+            labelProposition.textContent = 'Proposition';
+            propositionDiv.appendChild(labelProposition);
+
+            let inputProposition = document.createElement('input');
+            inputProposition.type = 'text';
+            inputProposition.name = `propositions[${questionIndex}][]`;
+            propositionDiv.appendChild(inputProposition);
+
+            let checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = `goodAnswers[${questionIndex}][]`;
+            checkbox.value = propositionsDiv.querySelectorAll('.proposition').length;
+            propositionDiv.appendChild(checkbox);
+
+            propositionsDiv.appendChild(propositionDiv);
+        }
+
+        document.getElementById('addQuestion').addEventListener('click', addQuestion);
+        addQuestion();
+    </script>
+</body>
+</html>
