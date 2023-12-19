@@ -22,6 +22,8 @@ export class DoQcmComponent {
 
     qcm!: Qcm;
     idQcm: number = Number(this.route.snapshot.paramMap.get('id'));
+    dataLoaded: boolean = false;
+
     form = new FormGroup({
         id: new FormControl(''),
         name: new FormControl(''),
@@ -49,39 +51,38 @@ export class DoQcmComponent {
 
     }
 
-    ngOnInit() {
-        this.idQcm = Number(this.route.snapshot.paramMap.get('id'));
+   async ngOnInit() {
+    this.idQcm = Number(this.route.snapshot.paramMap.get('id'));
 
-        this.backendService.getQcm(this.idQcm).then((qcm) => {
-            this.qcm = qcm;
-            this.form.patchValue({
-                id: qcm.id,
-                name: qcm.name,
-                nbpoints: qcm.nbpoints,
-                subject: qcm.subject
-            });
-            this.questionsFormArray.clear();
-            qcm.questions.forEach((question: Question) => {
-                this.questionsFormArray.push(new FormGroup({
-                    id: new FormControl(question.id),
-                    question: new FormControl(question.question),
-                    answers: new FormArray([])
+    const qcm = await this.backendService.getQcm(this.idQcm);
+    if (qcm) {
+        this.qcm = qcm;
+        this.form.patchValue({
+            id: qcm.id,
+            name: qcm.name,
+            nbpoints: qcm.nbpoints,
+            subject: qcm.subject
+        });
+        this.questionsFormArray.clear();
+        qcm.questions.forEach((question: Question) => {
+            this.questionsFormArray.push(new FormGroup({
+                id: new FormControl(question.id),
+                question: new FormControl(question.question),
+                answers: new FormArray([])
+            }));
+        });
+        qcm.questions.forEach((question: Question, questionIndex: number) => {
+            question.answers.forEach((answer: any) => {
+                this.questionAnswersFormArray(questionIndex).push(new FormGroup({
+                    id: new FormControl(answer.id),
+                    name: new FormControl(answer.name),
+                    isCorrect: new FormControl(false)
                 }));
             });
-            qcm.questions.forEach((question: Question, questionIndex: number) => {
-                question.answers.forEach((answer: any) => {
-                    this.questionAnswersFormArray(questionIndex).push(new FormGroup({
-                        id: new FormControl(answer.id),
-                        name: new FormControl(answer.name),
-                        isCorrect: new FormControl(false)
-                    }));
-                });
-            });
-
         });
-
-
+        this.dataLoaded = true;
     }
+}
 
     get questionsFormArray(): FormArray {
         return this.form.get('questions') as FormArray;
@@ -93,7 +94,6 @@ export class DoQcmComponent {
 
 
     envoyerDonnees() {
-        console.log(this.form.value);
         this.backendService.envoyerDonnees(this.form.value, this.idQcm).then(score => {
             this.score = score.score;
             this.popup = true;

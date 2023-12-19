@@ -24,8 +24,7 @@ export class BackendService {
     }
 
     async getQcm(id: number) {
-        console.log(`http://localhost:3000/qcms/${id}`);
-        return await fetch(`http://localhost:3000/qcms/${id}`)
+        return await fetch(`http://localhost:3000/qcms/${id}/json`)
             .then(response => response.json())
             .then(data => {
                 return data

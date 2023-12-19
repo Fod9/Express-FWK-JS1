@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
+
 const {
     displayQcms,
     displayFormQcm,
@@ -14,15 +15,17 @@ const {
 
 // DEFINITION DES ROUTES
 
-router.get('/', displayQcms);
+// router.get('/', displayQcms);
+
 
 router.get('/json', displayQcmJson);
 
-router.get('/new', displayFormQcm);
+// router.get('/new', displayFormQcm);
 
 router.post('/new', createNewForm);
 
-router.get('/:qcmid', displayQcmDetailed)
+router.get('/:qcmid/json', displayQcmDetailed)
+
 router.post('/:qcmid', DoQCM)
 
 

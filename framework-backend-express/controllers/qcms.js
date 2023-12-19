@@ -27,10 +27,8 @@ const DoQCM = (req, res) => {
 
             if (a.isCorrect && answer.isCorrect) {
                 score_question += 1;
-            }else if (!a.isCorrect && answer.isCorrect) {
-                score_question += 0.5;
-            }else {
-                score_question += 0;
+            } else if (a.isCorrect != answer.isCorrect) {
+                score_question -= 0.5;
             }
 
             score += score_question / nbBonnesReponses * points_par_question;
